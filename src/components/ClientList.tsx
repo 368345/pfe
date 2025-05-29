@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Client } from '../types';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { formatAmount, formatDate } from '../utils/formatters';
 
 interface ClientListProps {
   clients: Client[];
@@ -58,7 +58,7 @@ const ClientList: React.FC<ClientListProps> = ({ clients, loading = false }) => 
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Value</p>
-                  <p className="text-lg font-medium">{formatCurrency(client?.totalValue)}</p>
+                  <p className="text-lg font-medium">{formatAmount(client?.totalValue)}</p>
                 </div>
               </div>
             </div>

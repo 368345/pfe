@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Edit, Mail, Phone, MapPin, FileText, DollarSign, BarChart } from 'lucide-react';
 import { useInvoice } from '../context/InvoiceContext';
 import InvoiceList from '../components/InvoiceList';
-import { formatCurrency } from '../utils/formatters';
+import { formatAmount } from '../utils/formatters';
 
 const ClientDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -100,7 +100,7 @@ const ClientDetail: React.FC = () => {
                       <DollarSign className="h-5 w-5 text-green-600" />
                       <p className="ml-2 text-sm font-medium text-gray-500">Revenue</p>
                     </div>
-                    <p className="mt-1 text-2xl font-semibold">{formatCurrency(client.totalValue)}</p>
+                    <p className="mt-1 text-2xl font-semibold">{formatAmount(client.totalValue)}</p>
                   </div>
                 </div>
               </div>

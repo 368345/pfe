@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { ChevronLeft, Download, Share, Edit, Trash, FileText, Calendar, DollarSign, CheckCircle, CheckCircle as ClockCircle, AlertCircle } from 'lucide-react';
 import { useInvoice } from '../context/InvoiceContext';
-import { formatCurrency, formatDate } from '../utils/formatters';
+import { formatAmount, formatDate } from '../utils/formatters';
 
 const InvoiceDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -282,7 +282,7 @@ const InvoiceDetail: React.FC = () => {
                   </div>
                   <div className="flex justify-between items-center pt-4 border-t border-gray-200 mt-4">
                     <span className="text-lg font-medium">Total Amount:</span>
-                    <span className="text-xl font-bold text-blue-700">{formatCurrency(invoice.amount)}</span>
+                    <span className="text-xl font-bold text-blue-700">{formatAmount(invoice.amount)}</span>
                   </div>
                 </div>
                 
@@ -314,25 +314,25 @@ const InvoiceDetail: React.FC = () => {
                     <tr>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Professional Services</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatCurrency(invoice.amount)}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatCurrency(invoice.amount)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatAmount(invoice.amount)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatAmount(invoice.amount)}</td>
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
                       <td colSpan={2} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Subtotal</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatCurrency(invoice.amount)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatAmount(invoice.amount)}</td>
                     </tr>
                     <tr>
                       <td colSpan={2} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Tax (0%)</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatCurrency(0)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{formatAmount(0)}</td>
                     </tr>
                     <tr className="bg-gray-50">
                       <td colSpan={2} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"></td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">Total</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-700">{formatCurrency(invoice.amount)}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-blue-700">{formatAmount(invoice.amount)}</td>
                     </tr>
                   </tfoot>
                 </table>

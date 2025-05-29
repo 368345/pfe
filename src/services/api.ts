@@ -1,27 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Invoice } from "../types/Invoice";
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+  useQuery,
+  UseQueryResult,
+} from "@tanstack/react-query";
 
 const API_URL = 'http://localhost:9090'; // URL de l'API backend
 
-export const extractInvoiceData = async (base64Image: any) => {
-  try {
-    const response = await axios.post(`${API_URL}/ocr`, {
-      image: base64Image
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    // L'API renvoie directement le JSON
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de l\'extraction des données de la facture:', error);
-    throw error;
-  }
+
+const extractInvoiceData = async (base64Image: string) => {
+  const response = await axios.post(`${API_URL}/ocr`, { image: base64Image }, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+  return response.data;
 };
 
+export const useExtractInvoice = () => {
+  return useMutation({
+    mutationFn: (base64: string) => extractInvoiceData(base64)
+  });
+};
 
 /**
  * Hook to fetch revenue data per day of the week
@@ -213,3 +215,42 @@ export function useClients() {
   return { clients, loading, error };
 }
 
+const updateInvoice = async (
+  invoiceData: any
+): Promise<any> => {
+  const response = await axios.put(`${API_URL}/invoices/${invoiceData.invoiceId}`, {
+    invoiceNumber: invoiceData.invoiceNumber,
+    companyName: invoiceData.companyName,
+    companyAddress: invoiceData.companyAddress,
+    clientName: invoiceData.clientName,
+    clientAddress: invoiceData.clientAddress,
+    date: invoiceData.date,
+    dueDate: invoiceData.dueDate,
+    taxes: invoiceData.taxes,
+    total: invoiceData.total,
+    description: invoiceData.description,
+    quantity: invoiceData.quantity,
+    unitPrice: invoiceData.unitPrice,
+    amount: invoiceData.amount,
+  });
+
+  return response.data;
+};
+
+export const useUpdateInvoice = (): UseMutationResult<
+  any,
+  Error,
+  any,
+  unknown
+> => {
+  const mutationConfig: UseMutationOptions<
+    any,
+    Error,
+    any,
+    unknown
+  > = {
+    mutationFn: (values) => updateInvoice(values),
+  };
+
+  return useMutation(mutationConfig);
+};

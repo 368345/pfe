@@ -2,7 +2,6 @@ import React from 'react';
 import { DollarSign, Users, FileText } from 'lucide-react';
 import DashboardMetricsCard from '../components/DashboardMetricsCard';
 import InvoiceList from '../components/InvoiceList';
-import { formatCurrency } from '../utils/formatters';
 import ColumnChart from '../components/charts/ColumnChart';
 import {useDashboardSummary, useTopClients, useRecentInvoices} from '../services/api';
 import { formatAmount } from '../utils/formatters';
@@ -76,7 +75,7 @@ const Dashboard: React.FC = () => {
               <div className="ml-3 flex-1">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">{client.name}</p>
-                  <p className="text-sm font-medium text-gray-900">{formatCurrency(client.totalValue)}</p>
+                  <p className="text-sm font-medium text-gray-900">{formatAmount(client.totalValue)}</p>
                 </div>
                 <div className="mt-1 w-full bg-gray-200 rounded-full h-1.5">
                   <div 

@@ -115,9 +115,7 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, loading = false }) 
                 <SortIcon field="status" />
               </div>
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
-            </th>
+           
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -129,13 +127,13 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, loading = false }) 
                 </Link>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {invoice?.clientName}
+                {invoice?.clientName ?? invoice?.company_name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {formatDate(invoice?.date ?? invoice?.created_at)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                {formatAmount(invoice?.amount)}
+                {formatAmount(invoice?.amount ?? invoice?.total_amount)}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <span 
@@ -149,21 +147,7 @@ const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, loading = false }) 
                   {invoice?.status.charAt(0).toUpperCase() + invoice?.status.slice(1)}
                 </span>
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <Link 
-                  to={`/invoices/${invoice?.id}`}
-                  className="text-blue-600 hover:text-blue-900"
-                >
-                  View
-                </Link>
-                <span className="mx-2">|</span>
-                <Link 
-                  to={`/invoices/${invoice?.id}?edit=true`}
-                  className="text-blue-600 hover:text-blue-900"
-                >
-                  Edit
-                </Link>
-              </td>
+             
             </tr>
           ))}
         </tbody>
