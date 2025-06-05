@@ -1,10 +1,17 @@
-// components/ColumnChart.tsx
 import React from "react";
 import Chart from "react-apexcharts";
 import { useRevenuePerDay } from "../../services/api";
 
-const ColumnChart = () => {
-  const { data: chartData, loading, error } = useRevenuePerDay();
+const ColumnChart = ({ days }: { days: number }) => {
+  const { data: chartData, loading, error } = useRevenuePerDay({ days });
+
+  // Prepare labels and values from API data
+  const categories = chartData.map((entry) => {
+    const date = new Date(entry.date);
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" }); // e.g. "May 30"
+  });
+
+  const revenues = chartData.map((entry) => entry.total);
 
   const options = {
     colors: ["#1A56DB"],
@@ -25,7 +32,7 @@ const ColumnChart = () => {
     dataLabels: { enabled: false },
     legend: { show: false },
     xaxis: {
-      categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      categories, // ✅ dynamic categories
       labels: {
         style: {
           fontFamily: "Inter, sans-serif",
@@ -63,7 +70,7 @@ const ColumnChart = () => {
   const series = [
     {
       name: "Revenue",
-      data: chartData,
+      data: revenues,
     },
   ];
 

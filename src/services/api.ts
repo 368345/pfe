@@ -28,7 +28,7 @@ export const useExtractInvoice = () => {
 /**
  * Hook to fetch revenue data per day of the week
  */
-export const useRevenuePerDay = () => {
+export const useRevenuePerDay = ({days = 7}: {days?: number}) => {
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
@@ -36,9 +36,8 @@ export const useRevenuePerDay = () => {
   useEffect(() => {
     const fetchRevenue = async () => {
       try {
-        const res = await axios.get(`${API_URL}/stats/revenue-per-day`);
-        const values = res.data.map((entry: any) => entry.total);
-        setData(values);
+        const res = await axios.get(`${API_URL}/stats/revenue-per-day?days=${days}`);
+        setData(res.data);
       } catch (err) {
         console.error("Failed to fetch revenue per day:", err);
         setError("Unable to load chart data.");
@@ -48,7 +47,7 @@ export const useRevenuePerDay = () => {
     };
 
     fetchRevenue();
-  }, []);
+  }, [days]);
 
   return { data, loading, error };
 };

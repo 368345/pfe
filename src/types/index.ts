@@ -12,12 +12,12 @@ export interface Invoice {
 }
 
 export interface Client {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  company: string;
-  phone: string;
+  address: string;
+  createdAt: string | null;
   invoiceCount: number;
   totalValue: number;
-  lastInvoiceDate: string;
+  lastInvoiceDate: string | null;
 }

@@ -10,15 +10,16 @@ const Invoices: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string>('all');
 
   const filteredInvoices = invoices.filter(invoice => {
-    const matchesSearch = 
-      invoice.invoice_number.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      invoice.company_name.toLowerCase().includes(searchTerm.toLowerCase());
-    
-      const matchesStatus = filterStatus === 'all' || invoice.status.toLowerCase() === filterStatus.toLowerCase();
-    
+    const matchesSearch =
+      (invoice.invoice_number?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (invoice.company_name?.toLowerCase() || '').includes(searchTerm.toLowerCase());
+  
+    const matchesStatus =
+      filterStatus === 'all' || (invoice.status?.toLowerCase() || '') === filterStatus.toLowerCase();
+  
     return matchesSearch && matchesStatus;
   });
-
+  
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
