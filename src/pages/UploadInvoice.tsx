@@ -55,11 +55,13 @@ const UploadInvoice: React.FC = () => {
 
     reader.onloadend = async () => {
       const base64String = (reader.result as string).split(",")[1];
+      const fileType = file.type.includes("pdf") ? "pdf" : "image";
 
       try {
-        const data = await extractMutation.mutateAsync(
-          `data:${file.type};base64,${base64String}`
-        );
+        const data = await extractMutation.mutateAsync({
+          base64: `data:${file.type};base64,${base64String}`,
+          fileType,
+        });
 
         if (data) {
           const extracted = {
@@ -85,13 +87,11 @@ const UploadInvoice: React.FC = () => {
         }
       } catch (err) {
         console.error("Error extracting invoice", err);
-      } finally {
       }
     };
 
     reader.readAsDataURL(file);
   };
-
   const handleSave = async () => {
     if (!extractedData?.invoiceId) {
       alert("No invoice ID found to update.");
@@ -417,7 +417,11 @@ const UploadInvoice: React.FC = () => {
                     <X size={16} className="mr-1" />
                     Cancel
                   </button>
-                  <button onClick={handleSave} className="btn-primary" disabled={updateMutation.isPending}>
+                  <button
+                    onClick={handleSave}
+                    className="btn-primary"
+                    disabled={updateMutation.isPending}
+                  >
                     <Check size={16} className="mr-1" />
                     Save Invoice
                   </button>

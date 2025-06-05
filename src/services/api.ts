@@ -12,8 +12,11 @@ import {
 const API_URL = 'http://localhost:9090'; // URL de l'API backend
 
 
-const extractInvoiceData = async (base64Image: string) => {
-  const response = await axios.post(`${API_URL}/ocr`, { image: base64Image }, {
+const extractFileData = async (base64File: string, fileType: 'image' | 'pdf') => {
+  const response = await axios.post(`${API_URL}/ocr`, { 
+    file: base64File,
+    file_type: fileType
+  }, {
     headers: { 'Content-Type': 'application/json' },
   });
   return response.data;
@@ -21,7 +24,8 @@ const extractInvoiceData = async (base64Image: string) => {
 
 export const useExtractInvoice = () => {
   return useMutation({
-    mutationFn: (base64: string) => extractInvoiceData(base64)
+    mutationFn: ({ base64, fileType }: { base64: string, fileType: 'image' | 'pdf' }) => 
+      extractFileData(base64, fileType)
   });
 };
 
